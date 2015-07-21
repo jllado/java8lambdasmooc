@@ -61,7 +61,7 @@ public class Lesson1 {
     List<String> list = new ArrayList<>(Arrays.asList(
         "alpha", "bravo", "charlie", "delta", "echo", "foxtrot"));
 
-    list.removeIf(s -> hasOddLength(s));
+    list.removeIf(this::hasOddLength);
     System.out.println(list);
   }
 
@@ -78,7 +78,7 @@ public class Lesson1 {
     List<String> list = new ArrayList<>(Arrays.asList(
         "alpha", "bravo", "charlie", "delta", "echo", "foxtrot"));
 
-    list.replaceAll(s -> s.toUpperCase());
+    list.replaceAll(String::toUpperCase);
     System.out.println(list);
   }
 
@@ -107,7 +107,7 @@ public class Lesson1 {
   private void exercise5() {
     List<Integer> list = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-    new Thread(() -> list.forEach(i -> System.out.println(i))).start();
+    new Thread(() -> list.forEach(System.out::print)).start();
   }
 
   /**
