@@ -47,7 +47,9 @@ public class Lesson1 {
     List<String> list = Arrays.asList(
         "alpha", "bravo", "charlie", "delta", "echo", "foxtrot");
 
-    /* YOUR CODE HERE */
+    StringBuilder newString = new StringBuilder();
+    list.forEach(s -> newString.append(s.charAt(0)));
+    System.out.println(newString.toString());
   }
 
   /**
