@@ -94,7 +94,9 @@ public class Lesson1 {
     map.put("b", 2);
     map.put("a", 1);
 
-    /* YOUR CODE HERE */
+    StringBuilder newString = new StringBuilder();
+    map.forEach((key, value) -> newString.append(key).append(value));
+    System.out.println(newString.toString());
   }
 
   /**
