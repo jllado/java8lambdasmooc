@@ -61,7 +61,12 @@ public class Lesson1 {
     List<String> list = new ArrayList<>(Arrays.asList(
         "alpha", "bravo", "charlie", "delta", "echo", "foxtrot"));
 
-    /* YOUR CODE HERE */
+    list.removeIf(s -> hasOddLength(s));
+    System.out.println(list);
+  }
+
+  private boolean hasOddLength(String string) {
+    return string.length() % 2 != 0;
   }
 
   /**
