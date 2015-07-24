@@ -11,6 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -146,7 +147,7 @@ public class Lesson2 {
               .flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
               .distinct()
               .map(String::toLowerCase)
-              .sorted((s1, s2) -> s1.length() - s2.length())
+              .sorted(Comparator.comparingInt(String::length))
               .collect(Collectors.toList());
       System.out.println(list);
     }
