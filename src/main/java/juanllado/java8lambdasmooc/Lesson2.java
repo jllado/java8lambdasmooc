@@ -12,12 +12,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author Speakjava (simon.ritter@oracle.com)
  */
 public class Lesson2 {
   private static final String WORD_REGEXP = "[- .:,]+";
+  public static final String FILE = ClassLoader.getSystemResource("SonnetI.txt").getFile();
 
   /**
    * Run the exercises to ensure we got the right answers
@@ -52,7 +56,7 @@ public class Lesson2 {
     List<String> list = Arrays.asList(
         "The", "Quick", "BROWN", "Fox", "Jumped", "Over", "The", "LAZY", "DOG");
 
-    /* YOUR CODE HERE */
+    System.out.println(list.stream().map(String::toLowerCase).collect(Collectors.toList()));
   }
 
   /**
@@ -65,7 +69,11 @@ public class Lesson2 {
     List<String> list = Arrays.asList(
         "The", "Quick", "BROWN", "Fox", "Jumped", "Over", "The", "LAZY", "DOG");
 
-    /* YOUR CODE HERE */
+    System.out.println(list.stream().filter(this::hasOddLenght).collect(Collectors.toList()));
+  }
+
+  private boolean hasOddLenght(String string) {
+    return string.length() % 2 != 0;
   }
 
   /**
@@ -78,7 +86,7 @@ public class Lesson2 {
     List<String> list = Arrays.asList(
         "The", "quick", "brown", "fox", "jumped", "over", "the", "lazy", "dog");
 
-    /* YOUR CODE HERE */
+    System.out.println(list.stream().skip(1).limit(3).reduce((s1, s2) -> s1.concat("-").concat(s2)).get());
   }
 
   /**
@@ -86,11 +94,11 @@ public class Lesson2 {
    */
   private void exercise4() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+        Paths.get(FILE), StandardCharsets.UTF_8)) {
+      System.out.println(reader.lines().count());
     }
   }
-  
+
   /**
    * Using the BufferedReader to access the file, create a list of words with
    * no duplicates contained in the file.  Print the words.
@@ -99,30 +107,48 @@ public class Lesson2 {
    */
   private void exercise5() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+        Paths.get(FILE), StandardCharsets.UTF_8)) {
+      List<String> list = reader.lines()
+              .flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
+              .distinct()
+              .collect(Collectors.toList());
+      System.out.println(list);
     }
   }
-  
+
   /**
-   * Using the BufferedReader to access the file create a list of words from 
+   * Using the BufferedReader to access the file create a list of words from
    * the file, converted to lower-case and with duplicates removed, which is
    * sorted by natural order.  Print the contents of the list.
    */
   private void exercise6() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+        Paths.get(FILE), StandardCharsets.UTF_8)) {
+
+      List<String> list = reader.lines()
+              .flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
+              .distinct()
+              .map(String::toLowerCase)
+              .sorted()
+              .collect(Collectors.toList());
+      System.out.println(list);
     }
   }
-  
+
   /**
    * Modify exercise6 so that the words are sorted by length
    */
   private void exercise7() throws IOException {
     try (BufferedReader reader = Files.newBufferedReader(
-        Paths.get("SonnetI.txt"), StandardCharsets.UTF_8)) {
-      /* YOUR CODE HERE */
+        Paths.get(FILE), StandardCharsets.UTF_8)) {
+
+      List<String> list = reader.lines()
+              .flatMap(line -> Stream.of(line.split(WORD_REGEXP)))
+              .distinct()
+              .map(String::toLowerCase)
+              .sorted((s1, s2) -> s1.length() - s2.length())
+              .collect(Collectors.toList());
+      System.out.println(list);
     }
   }
 
