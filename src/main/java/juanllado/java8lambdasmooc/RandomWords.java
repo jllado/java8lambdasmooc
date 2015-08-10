@@ -33,8 +33,8 @@ public class RandomWords {
    */
   public RandomWords() throws IOException {   
     try (BufferedReader reader = Files.newBufferedReader(Paths.get(FILE))) {
-      sourceWords = new ArrayList<>();    // YOUR CODE HERE
-      
+      sourceWords = reader.lines().collect(Collectors.toList());
+
       System.out.println("Loaded " + sourceWords.size() + " words");
     }
   }
@@ -47,7 +47,7 @@ public class RandomWords {
    */
   public List<String> createList(int listSize) {
     Random rand = new Random();
-    List<String> wordList = new ArrayList<>(); // YOUR CODE HERE
+    List<String> wordList = rand.ints(listSize, 0, sourceWords.size() - 1).boxed().map(sourceWords::get).collect(Collectors.toList());
 
     return wordList;
   }
