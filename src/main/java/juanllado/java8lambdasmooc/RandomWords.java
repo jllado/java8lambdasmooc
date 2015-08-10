@@ -46,10 +46,7 @@ public class RandomWords {
    * @return The created list
    */
   public List<String> createList(int listSize) {
-    Random rand = new Random();
-    List<String> wordList = rand.ints(listSize, 0, sourceWords.size() - 1).boxed().map(sourceWords::get).collect(Collectors.toList());
-
-    return wordList;
+    return new Random().ints(listSize, 0, sourceWords.size() - 1).boxed().map(sourceWords::get).collect(Collectors.toList());
   }
 
   /**

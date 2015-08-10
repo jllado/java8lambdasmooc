@@ -8,6 +8,8 @@ package juanllado.java8lambdasmooc;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -81,9 +83,11 @@ public class Lesson3 {
    * @return The list processed in whatever way you want
    */
   static List<String> processWords(List<String> wordList, boolean parallel) {
-    // YOUR CODE HERE
-    
-    return null;
+    return getStreamBy(parallel, wordList.stream())
+            .map(String::toLowerCase)
+            .filter(word -> word.length() > 5)
+            .sorted()
+            .collect(Collectors.toList());
   }
 
   /**
@@ -94,12 +98,12 @@ public class Lesson3 {
    */
   public static void main(String[] args) throws IOException {
     RandomWords fullWordList = new RandomWords();
-    List<String> wordList = fullWordList.createList(1000);
+    List<String> wordList = fullWordList.createList(100000);
 
-    measure("Sequential", () -> computeLevenshtein(wordList, false));
-    measure("Parallel", () -> computeLevenshtein(wordList, true));
+//    measure("Sequential", () -> computeLevenshtein(wordList, false));
+//    measure("Parallel", () -> computeLevenshtein(wordList, true));
     
-//    measure("Sequential", () -> processWords(wordList, false));
-//    measure("Parallel", () -> processWords(wordList, true));
+    measure("Sequential", () -> processWords(wordList, false));
+    measure("Parallel", () -> processWords(wordList, true));
   }
 }
