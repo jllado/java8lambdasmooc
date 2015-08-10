@@ -8,8 +8,6 @@ package juanllado.java8lambdasmooc;
 import java.io.IOException;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -67,14 +65,14 @@ public class Lesson3 {
    * @return Matrix of Levenshtein distances
    */
   static int[][] computeLevenshtein(List<String> wordList, boolean parallel) {
-    final int LIST_SIZE = wordList.size();
-    int[][] distances = new int[LIST_SIZE][LIST_SIZE];
-    
-    // YOUR CODE HERE
-    
-    return distances;
+    Stream<String> stream = wordList.stream();
+    return getStreamBy(parallel, stream).map(word1 -> getStreamBy(parallel, wordList.stream()).mapToInt(word2 -> Levenshtein.lev(word1, word2)).toArray()).toArray(int[][]::new);
   }
-  
+
+  private static Stream<String> getStreamBy(boolean parallel, Stream<String> stream) {
+    return (parallel ? stream.parallel() : stream );
+  }
+
   /**
    * Process a list of random strings and return a modified list
    * 
